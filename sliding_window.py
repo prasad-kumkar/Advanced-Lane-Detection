@@ -122,3 +122,4 @@ def fit_polynomial(binary_warped):
 out_img = fit_polynomial(binary_warped)
 
 plt.imshow(out_img)
+plt.show()
