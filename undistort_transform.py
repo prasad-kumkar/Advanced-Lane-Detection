@@ -24,11 +24,11 @@ def corners_unwarp(img, nx, ny, mtx, dist):
     if ret:
         img = cv2.drawChessboardCorners(undist, (nx,ny), corners, ret)
         src = np.float32([corners[0],corners[nx-1],corners[-1],corners[-nx]])
-                '''Note: you could pick any four of the detected corners 
-                 as long as those four corners define a rectangle
-                 One especially smart way to do this would be to use four well-chosen
-                 corners that were automatically detected during the undistortion steps
-                 We recommend using the automatic detection of corners in your code '''
+        '''Note: you could pick any four of the detected corners 
+        as long as those four corners define a rectangle
+        One especially smart way to do this would be to use four well-chosen
+        corners that were automatically detected during the undistortion steps
+        We recommend using the automatic detection of corners in your code '''
         offset = 100
         dst = np.float32([[offset, offset], 
                         [gray.shape[1]-offset, offset], 
