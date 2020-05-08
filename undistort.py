@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 # Read in the saved objpoints and imgpoints
-dist_pickle = pickle.load( open( "wide_dist_pickle.p", "rb" ) )
+dist_pickle = pickle.load( open( "test_images/wide_dist_pickle.p", "rb" ) )
 objpoints = dist_pickle["objpoints"]
 imgpoints = dist_pickle["imgpoints"]
 

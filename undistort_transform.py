@@ -35,8 +35,7 @@ def corners_unwarp(img, nx, ny, mtx, dist):
             # d) use cv2.getPerspectiveTransform() to get M, the transform matrix
             # e) use cv2.warpPerspective() to warp your image to a top-down view
     #delete the next two lines
-    M = None
-    warped = np.copy(img) 
+    
     return warped, M
 
 top_down, perspective_M = corners_unwarp(img, nx, ny, mtx, dist)

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import cv2
 
 # Load our image
-binary_warped = mpimg.imread('warped-example.jpg')
+binary_warped = mpimg.imread('test_images/warped-example.jpg')
 
 def find_lane_pixels(binary_warped):
     # Take a histogram of the bottom half of the image
