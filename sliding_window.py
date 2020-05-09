@@ -139,6 +139,9 @@ def draw_poly(img, left_poly, right_poly, steps, color=[0,255,0], thickness=-1):
         img = cv2.rectangle(img, right_end_point, left_start_point, color, thickness)
     return img
 
+def curvature(left_coeff, right_coeff, y_eval=500):
+    
+
 if __name__ == "__main__":
     # Load our image
     binary_warped = mpimg.imread('test_images/warped-example.jpg')
