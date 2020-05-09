@@ -3,8 +3,6 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import cv2
 
-# Load our image
-binary_warped = mpimg.imread('test_images/warped-example.jpg')
 
 def find_lane_pixels(binary_warped):
     # Take a histogram of the bottom half of the image
@@ -50,11 +48,11 @@ def find_lane_pixels(binary_warped):
         win_xright_high = rightx_current + margin
         
         # Draw the windows on the visualization image
-        cv2.rectangle(out_img,(win_xleft_low,win_y_low),
+        '''cv2.rectangle(out_img,(win_xleft_low,win_y_low),
         (win_xleft_high,win_y_high),(0,255,0), 2) 
         cv2.rectangle(out_img,(win_xright_low,win_y_low),
         (win_xright_high,win_y_high),(0,255,0), 2) 
-        
+        '''
         # Identify the nonzero pixels in x and y within the window #
         good_left_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & 
         (nonzerox >= win_xleft_low) &  (nonzerox < win_xleft_high)).nonzero()[0]
@@ -113,13 +111,40 @@ def fit_polynomial(binary_warped):
     out_img[righty, rightx] = [0, 0, 255]
 
     # Plots the left and right polynomials on the lane lines
-    plt.plot(left_fitx, ploty, color='yellow')
-    plt.plot(right_fitx, ploty, color='yellow')
+    #plt.plot(left_fitx, ploty, color='yellow')
+    #plt.plot(right_fitx, ploty, color='yellow')
 
-    return out_img
+    blank = np.zeros_like(out_img)
+    blank = draw_poly(blank, left_fitx, right_fitx, 100)
+    #blank = draw_poly(blank, right_fitx, 30)
+
+    return blank
 
 
-out_img = fit_polynomial(binary_warped)
+def draw_poly(img, left_poly, right_poly, steps, color=[0,255,0], thickness=-1):
 
-plt.imshow(out_img)
-plt.show()
+    height = img.shape[0]
+    pixels = height/steps
+
+    for i in range(steps-1):
+        start = i*pixels
+        end = start + pixels
+
+        left_start_point = (int(left_poly[int(start)]), int(start))
+        left_end_point = (int(right_poly[int(end)]), int(end))
+
+        right_start_point = (int(right_poly[int(start)]), int(start))
+        right_end_point = (int(right_poly[int(end)]), int(end))
+
+        img = cv2.rectangle(img, right_end_point, left_start_point, color, thickness)
+    return img
+
+if __name__ == "__main__":
+    # Load our image
+    binary_warped = mpimg.imread('test_images/warped-example.jpg')
+
+    out_img = fit_polynomial(binary_warped)
+    print(out_img.shape)
+
+    plt.imshow(out_img)
+    plt.show()

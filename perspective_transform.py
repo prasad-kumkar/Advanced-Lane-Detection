@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.image as mpimg
 import cv2
 
-def transform(img, src, dst):
+def transform(image, src, dst):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     img_size = (gray.shape[1], gray.shape[0])
     M = cv2.getPerspectiveTransform(src, dst)
