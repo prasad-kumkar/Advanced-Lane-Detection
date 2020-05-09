@@ -140,7 +140,15 @@ def draw_poly(img, left_poly, right_poly, steps, color=[0,255,0], thickness=-1):
     return img
 
 def curvature(left_coeff, right_coeff, y_eval=500):
-    
+    left_curverad = np.absolute(((1 + (2 * left_coeffs[0] * y_eval + left_coeffs[1])**2) ** 1.5) \
+                /(2 * left_coeffs[0]))
+    right_curverad = np.absolute(((1 + (2 * right_coeffs[0] * y_eval + right_coeffs[1]) ** 2) ** 1.5) \
+                     /(2 * right_coeffs[0]))
+    print("Left lane curve radius: ", left_curverad, "pixels")
+    print("Right lane curve radius: ", right_curverad, "pixels")
+    curvature = (left_curverad + right_curverad) / 2
+    centre = center(719, left_coeffs, right_coeffs)
+    min_curvature = min(left_curverad, right_curverad)
 
 if __name__ == "__main__":
     # Load our image
