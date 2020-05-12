@@ -116,8 +116,8 @@ def fit_polynomial(binary_warped):
 
     blank = np.zeros_like(out_img)
     blank = draw_poly(blank, left_fitx, right_fitx, 100)
-    #blank = draw_poly(blank, right_fitx, 30)
-
+    
+    curve, l_curve, r_curve = curvature(left_fit, right_fit)
     return blank
 
 
@@ -131,7 +131,7 @@ def draw_poly(img, left_poly, right_poly, steps, color=[0,255,0], thickness=-1):
         end = start + pixels
 
         left_start_point = (int(left_poly[int(start)]), int(start))
-        left_end_point = (int(right_poly[int(end)]), int(end))
+        left_end_point = (int(left_poly[int(end)]), int(end))
 
         right_start_point = (int(right_poly[int(start)]), int(start))
         right_end_point = (int(right_poly[int(end)]), int(end))
@@ -139,7 +139,7 @@ def draw_poly(img, left_poly, right_poly, steps, color=[0,255,0], thickness=-1):
         img = cv2.rectangle(img, right_end_point, left_start_point, color, thickness)
     return img
 
-def curvature(left_coeff, right_coeff, y_eval=500):
+def curvature(left_coeffs, right_coeffs, y_eval=500):
     left_curverad = np.absolute(((1 + (2 * left_coeffs[0] * y_eval + left_coeffs[1])**2) ** 1.5) \
                 /(2 * left_coeffs[0]))
     right_curverad = np.absolute(((1 + (2 * right_coeffs[0] * y_eval + right_coeffs[1]) ** 2) ** 1.5) \
@@ -147,15 +147,16 @@ def curvature(left_coeff, right_coeff, y_eval=500):
     print("Left lane curve radius: ", left_curverad, "pixels")
     print("Right lane curve radius: ", right_curverad, "pixels")
     curvature = (left_curverad + right_curverad) / 2
-    centre = center(719, left_coeffs, right_coeffs)
-    min_curvature = min(left_curverad, right_curverad)
+    return curvature, left_curverad, right_curverad
+
+def center(left_coeffs, right_coeffs):
+    return 0
 
 if __name__ == "__main__":
     # Load our image
     binary_warped = mpimg.imread('test_images/warped-example.jpg')
 
     out_img = fit_polynomial(binary_warped)
-    print(out_img.shape)
 
     plt.imshow(out_img)
     plt.show()
