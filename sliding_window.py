@@ -48,11 +48,9 @@ def find_lane_pixels(binary_warped):
         win_xright_high = rightx_current + margin
         
         # Draw the windows on the visualization image
-        '''cv2.rectangle(out_img,(win_xleft_low,win_y_low),
-        (win_xleft_high,win_y_high),(0,255,0), 2) 
-        cv2.rectangle(out_img,(win_xright_low,win_y_low),
-        (win_xright_high,win_y_high),(0,255,0), 2) 
-        '''
+        #cv2.rectangle(out_img,(win_xleft_low,win_y_low),(win_xleft_high,win_y_high),(0,255,0), 2) 
+        #cv2.rectangle(out_img,(win_xright_low,win_y_low),(win_xright_high,win_y_high),(0,255,0), 2) 
+        
         # Identify the nonzero pixels in x and y within the window #
         good_left_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & 
         (nonzerox >= win_xleft_low) &  (nonzerox < win_xleft_high)).nonzero()[0]
@@ -117,7 +115,6 @@ def fit_polynomial(binary_warped):
     blank = np.zeros_like(out_img)
     blank = draw_poly(blank, left_fitx, right_fitx, 100)
     
-    curve, l_curve, r_curve = curvature(left_fit, right_fit)
     return blank
 
 
@@ -139,18 +136,6 @@ def draw_poly(img, left_poly, right_poly, steps, color=[0,255,0], thickness=-1):
         img = cv2.rectangle(img, right_end_point, left_start_point, color, thickness)
     return img
 
-def curvature(left_coeffs, right_coeffs, y_eval=500):
-    left_curverad = np.absolute(((1 + (2 * left_coeffs[0] * y_eval + left_coeffs[1])**2) ** 1.5) \
-                /(2 * left_coeffs[0]))
-    right_curverad = np.absolute(((1 + (2 * right_coeffs[0] * y_eval + right_coeffs[1]) ** 2) ** 1.5) \
-                     /(2 * right_coeffs[0]))
-    print("Left lane curve radius: ", left_curverad, "pixels")
-    print("Right lane curve radius: ", right_curverad, "pixels")
-    curvature = (left_curverad + right_curverad) / 2
-    return curvature, left_curverad, right_curverad
-
-def center(left_coeffs, right_coeffs):
-    return 0
 
 if __name__ == "__main__":
     # Load our image
